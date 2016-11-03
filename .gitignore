@@ -1,0 +1,13 @@
+tmp
+!.gitkeep=
+.DS_Store
+node_modules
+.tmp
+.idea
+public/bower_components
+/server/config/local.env.js
+npm-debug.log
+logs/*
+client/
+dist/
+!public/dist/

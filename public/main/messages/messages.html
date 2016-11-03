@@ -1,0 +1,44 @@
+<md-content class="messages" flex layout="column" layout-padding layout-align="center center" ng-style="{'background': '#eee'}" ng-init='load()'>
+  <!-- Progress mientras se cargan los mensajes y se comprueba la geolocalizacion del usuario -->
+  <md-progress-circular ng-if="!toggle.progress" md-mode="indeterminate"></md-progress-circular>
+
+  <!-- Mensaje de Error si la aplicación no pudo obtener ubicación del usuario -->
+  <md-card ng-show="toggle.error">
+    <md-card-content layout="column" layout-align="center center" >
+      <md-icon md-svg-src="/dist/icons/ic_mood_bad_black_48px.svg" aria-label="mood bad" id="moodBadIcon"></md-icon>
+      <h3>Algo salió mal</h3>
+      <p>{{errorMessage}}</p>
+    </md-card-content>
+  </md-card>
+
+  <!-- Div con los mensajes cercano al usuario -->
+  <md-content flex class="messagesContent" ng-if="toggle.yelling" scroll-bottom="messages">
+    <md-card class="md-whiteframe-3dp" ng-class="{'animated fadeInDown':toggle.yelling}" ui-sref="main.comments({id: '{{message.id}}'})" ng-if="toggle.yelling" ng-repeat="message in messages" scroll-bottom="messages" style="cursor:pointer">
+      <md-card-content  layout="row" layout-padding>
+        <div layout="column" flex="7" layout-align="center center">
+          <img class="cardAvatar md-whiteframe-2dp" ng-src="{{message.avatar}}" alt="avatar"/>
+          <h4 class="md-body-2 no-margin">{{ message.author.facebook.first_name }}</h4>
+        </div>
+        <div layout="column" layout-align="space-around start" flex>
+          <div layout="row" layout-align="space-around start">
+            <p class="md-caption no-margin"><span hide-sm>Distancia:</span> {{message.distance}} metros</p>
+            <p class="md-caption no-margin"><span hide-sm>Fecha mensaje:</span> {{message.dateTime | date:'d MMM, y' }}</p>
+            <p class="md-caption no-margin"><span hide-sm>Hora mensaje:</span> {{message.dateTime | date:' HH:mm:ss' }}</p>
+          </div>
+          <h3 class="md-body-2 no-margin">{{message.text}}</h3>
+          <div layout="row">
+            <p class="md-caption no-margin">Votos: {{message.votes}}</p>
+            <span flex="3"></span>
+            <p class="md-caption no-margin">Comentarios: {{message.qtyComments}}</p>
+          </div>
+        </div>
+      </md-card-content>
+    </md-card>
+  </md-content>
+
+  <!-- Boton para enviar nuevos mensajes -->
+  <md-button ng-if="toggle.yelling" class="md-fab md-primary md-fab-bottom-right md-whiteframe-5dp" aria-label="Add" ng-click="showNewMessage($event)">
+    <md-icon md-svg-src="/dist/icons/ic_add_white_24px.svg"></md-icon>
+  </md-button>
+</md-content>
+<!-- <feedback-widget url='/api/feedbacks' thanks-text='Gracias!' /> -->

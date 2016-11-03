@@ -1,0 +1,64 @@
+<md-content class="motes" flex layout="column" layout-align="start center" ng-style="{'background': '#eee'}" ng-init='load()'>
+  <!-- Progress mientras se cargan los mensajes y se comprueba la geolocalizacion del usuario -->
+  <!-- <md-progress-circular ng-if="!toggle.progress" md-mode="indeterminate"></md-progress-circular> -->
+
+  <!-- Mensaje de Error si la aplicación no pudo obtener ubicación del usuario -->
+  <md-card ng-show="toggle.error">
+    <md-card-content layout="column" layout-align="center center" >
+      <md-icon md-svg-src="/dist/icons/ic_mood_bad_black_48px.svg" aria-label="mood bad" id="moodBadIcon"></md-icon>
+      <h3>Algo salió mal</h3>
+      <p>{{errorMessage}}</p>
+    </md-card-content>
+  </md-card>
+
+  <!-- Div con los mensajes cercano al usuario -->
+  <!-- <md-content flex class="messagesContent"  scroll-bottom="messages">
+  </md-content> -->
+
+  <section layout="row" layout-sm="column" layout-align="end center" >
+    <md-button class="md-primary md-raised" ng-click="addNewMote($event)" aria-label="Add">
+      <!-- <md-icon md-svg-src="img/icons/cake.svg"></md-icon>  -->
+      Nuevo Mote</md-button>
+    </section>
+  <!-- <md-content> -->
+
+  <div class="table-responsive-vertical md-whiteframe-z1">
+    <table id="table" class="table table-hover table-bordered">
+      <thead>
+      <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>MAC</th>
+          <th>IPv6</th>
+          <th>EUI-64</th>
+          <th>PAN-ID</th>
+          <th>Comando</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="mote in motes track by $index">
+          <td data-title="ID">{{$index + 1}}</td>
+          <td data-title="Nombre">{{mote.name}}</td>
+          <td data-title="MAC">{{mote.mac}}</td>
+          <td data-title="IPv6">{{mote.ipv6}}</td>
+          <td data-title="EUI-64">{{mote.eui64}}</td>
+          <td data-title="PAN-ID">{{mote.panid}}</td>
+          <td>
+            <md-checkbox >
+               {{ item }}
+            </md-checkbox>
+          </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- </md-content> -->
+
+
+  <!-- Boton para enviar nuevos mensajes -->
+  <!-- <md-button class="md-primary md-fab-bottom-right md-whiteframe-5dp" aria-label="Add" ng-click="showNewMessage($event)">
+    <md-icon md-svg-src="/dist/icons/ic_add_white_24px.svg"></md-icon>
+    Nuevo Mote
+  </md-button> -->
+</md-content>
+<!-- <feedback-widget url='/api/feedbacks' thanks-text='Gracias!' /> -->

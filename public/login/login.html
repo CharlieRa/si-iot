@@ -1,0 +1,40 @@
+<div layout="column" layout-align="center center" class="login">
+  <md-card style="min-width:200px;max-width:450px; width: 80%;">
+    <md-toolbar class="md-whiteframe-z3" style="min-height: 55px;">
+     <div class="md-toolbar-tools">
+       <h3>
+         <span>Login</span>
+       </h3>
+     </div>
+   </md-toolbar>
+   <md-progress-linear md-mode="indeterminate" ng-if=loading></md-progress-linear>
+    <md-content layout="column" layout-align="center center" layout-padding layout-margin>
+      <!-- <img class="md-raised md-whiteframe-z4" id="mainLogoLogin" src="dist/img/logos/mainLogo1.png" alt=""> -->
+      <h3 class="md-headline">Sistema de Gestion IoT</h3>
+      <div layout="column" layout-align="start center">
+        <form name="loginForm">
+          <md-input-container class="md-icon-float md-block" ng-readonly="formInput">
+            <label>Username</label>
+            <!-- <md-icon md-svg-src="img/icons/ic_person_24px.svg" class="name"></md-icon> -->
+            <input ng-model="user.username" type="text">
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <label>Password (requerido)</label>
+            <!-- <md-icon md-svg-src="img/icons/ic_email_24px.svg" class="email"></md-icon> -->
+            <input ng-model="user.password" type="password" ng-required="true" ng-readonly="formInput">
+          </md-input-container>
+        </form>
+      </div>
+      <div layout="row" layout-xs="column" layout-sm="row" layout-md="row"  layout-gt="row" layout-align="end center">
+        <md-button ng-click="login()" class="md-raised md-primary  md-whiteframe-z4">
+          <span flex>Enviar</span>
+        </md-button>
+        <md-button ng-click="reset()" class="md-raised  md-primary md-whiteframe-z4">
+          <span flex>Limpiar</span>
+        </md-button>
+      </div>
+
+    </md-content>
+  </md-card>
+</div>
