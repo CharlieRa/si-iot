@@ -1,17 +1,16 @@
-<div class="main" layout="row" layout-fill class="navbar md-whiteframe-z4" ng-style="{'background': '#eee'}" md-swipe-left="closeSideNav()" md-swipe-right="closeNotifications()">
+<!-- <div class="main" layout="row" layout-fill class="navbar md-whiteframe-z4" ng-style="{'background': '#eee'}"> -->
   <md-sidenav
         class="md-sidenav-left"
         md-component-id="left"
         md-is-locked-open="$mdMedia('gt-md')"
         md-whiteframe="4"
         md-swipe-left="closeSideNav()">
-    <md-toolbar class="primaryBgColor md-whiteframe-z3">
+    <!-- <md-toolbar md-theme="custom" class="md-hue-1 md-whiteframe-z2"> -->
+    <md-toolbar class="md-whiteframe-z3">
       <span flex></span>
       <div layout="column" class="md-toolbar-tools-bottom inset">
         SGI-IoT
         <span></span>
-        <div class="md-body-2">{{ currentUser.facebook.first_name }} </div>
-        <div class="md-body-1">{{ currentUser.facebook.email }}</div>
       </div>
     </md-toolbar>
 
@@ -28,18 +27,14 @@
     <md-divider ng-repeat-end></md-divider>
   </md-sidenav>
 
-  <div layout="column" layout-fill role="main">
-    <md-toolbar class="primaryBgColor">
+  <div layout="column" flex>
+    <md-toolbar>
       <div class="md-toolbar-tools">
         <md-button class="md-icon-button" ng-click="showSideNav()" hide-gt-md aria-label="Menu">
           <md-icon md-svg-src="/dist/icons/ic_menu_24px.svg"></md-icon>
         </md-button>
-        <!-- <md-button class="hide-sm hide-md" ui-sref="main.messages" aria-label="Yelling"> -->
-           <!-- <img class="png-icon" src="/dist/img/logos/mainLogo1.png" style="width: 40px; height: 40px;border-radius:50%;"> -->
-           <!-- <span>SGI-IoT!</span> -->
-        <!-- </md-button> -->
-        <md-button class="md-icon-button hide-gt-md" ui-sref="main.messages" aria-label="Yelling">
-           <img class="png-icon" src="/dist/img/logos/mainLogo1.png" style="width: 40px; height: 40px;border-radius:50%;">
+        <md-button ui-sref="main.dashboard" aria-label="Yelling">
+           <span>SGI-IoT!</span>
         </md-button>
         <span flex></span>
         <!-- Menu de opciones de usuario logueado -->
@@ -60,5 +55,6 @@
         </md-menu>
       </div>
     </md-toolbar>
+    <div md-swipe-left="openNotifications()" md-swipe-right="showSideNav()" class="ui-view"></div>
   </div>
-</div>
+<!-- </div> -->

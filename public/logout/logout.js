@@ -13,13 +13,17 @@ angular
   })
   .controller('LogoutCtrl', LogoutCtrl);
 
-  function LogoutCtrl ($scope, $location, $auth) {
+  function LogoutCtrl ($scope, $location, $auth, $mdToast) {
     console.log("aadsasasdas");
     if (!$auth.isAuthenticated()) { return; }
     $auth.logout()
       .then(function() {
         // toastr.info('You have been logged out');
-        console.log("loged out");
-        // $location.path('/login');
+        $mdToast.show(
+           $mdToast.simple()
+             .content('Has cerrado sesión. Hasta luego!')
+             .hideDelay(3000)
+         );
+        $location.path('/login');
       });
   }

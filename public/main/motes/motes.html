@@ -15,11 +15,10 @@
   <!-- <md-content flex class="messagesContent"  scroll-bottom="messages">
   </md-content> -->
 
-  <section layout="row" layout-sm="column" layout-align="end center" >
-    <md-button class="md-primary md-raised" ng-click="addNewMote($event)" aria-label="Add">
-      <!-- <md-icon md-svg-src="img/icons/cake.svg"></md-icon>  -->
-      Nuevo Mote</md-button>
-    </section>
+  <section layout="row" layout-sm="row" layout-align="end end" >
+    <md-button class="md-primary md-raised" ng-click="getCommands()" aria-label="Add">getCommands</md-button>
+    <md-button class="md-primary md-raised" ng-click="addNewMote($event)" aria-label="Add">Nuevo Mote</md-button>
+  </section>
   <!-- <md-content> -->
 
   <div class="table-responsive-vertical md-whiteframe-z1">
@@ -32,26 +31,86 @@
           <th>IPv6</th>
           <th>EUI-64</th>
           <th>PAN-ID</th>
-          <th>Comando</th>
+          <th>Commands <br>Available</th>
+          <th>
+            <md-checkbox aria-label="Select All"
+                        ng-checked="isChecked()"
+                        md-indeterminate="isIndeterminate()"
+                        ng-click="toggleAll()">
+             <span ng-if="isChecked()">Un-</span>
+           </md-checkbox>
+          </th>
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="mote in motes track by $index">
-          <td data-title="ID">{{$index + 1}}</td>
-          <td data-title="Nombre">{{mote.name}}</td>
-          <td data-title="MAC">{{mote.mac}}</td>
-          <td data-title="IPv6">{{mote.ipv6}}</td>
-          <td data-title="EUI-64">{{mote.eui64}}</td>
-          <td data-title="PAN-ID">{{mote.panid}}</td>
-          <td>
-            <md-checkbox >
-               {{ item }}
-            </md-checkbox>
-          </td>
-      </tr>
+        <!-- <tr>
+          <td>lala</td>
+          <td colspan="6">;ala</td>
+          <td>lsala</td>
+        </tr> -->
+        <tr ng-repeat="mote in motes track by $index">
+            <td data-title="ID">{{$index + 1}}</td>
+            <td data-title="Nombre">{{mote.name}}</td>
+            <td data-title="MAC">{{mote.mac}}</td>
+            <td data-title="IPv6">{{mote.ipv6}}</td>
+            <td data-title="EUI-64">{{mote.eui64}}</td>
+            <td data-title="PAN-ID">{{mote.panid}}</td>
+            <td data-title="Commands">
+               <md-button ng-repeat="command in mote.commands">
+                 {{command}}
+               </md-button>
+            </td>
+            <td>
+              <!-- <md-checkbox aria-label="Mote Command" ng-model="mote.selected" ng-checked="exists(item, selected)" ng-click="toggle(item, selected)"> -->
+              <md-checkbox aria-label="Mote Command" ng-model="mote.selected">
+                 {{ item }}
+              </md-checkbox>
+            </td>
+        </tr>
       </tbody>
     </table>
+    <md-progress-linear md-mode="indeterminate" ng-if="toggle.commands"></md-progress-linear>
   </div>
+  <br>
+
+  <!-- <section layout="row" layout-sm="row" layout-align="end center" >
+    <md-button class="md-primary md-raised" ng-click="getCommands()" aria-label="Add">getCommands</md-button>
+  </section> -->
+  <!-- <md-content flex="100" scroll-bottom="messages" ng-style="[{'background': '#eee', 'width':'90%'}]"> -->
+  <!-- <md-content flex="100" style="background: #eee;width:80%"> -->
+  <!-- <section layout="row" layout-sm="row" layout-align="end center" flex > -->
+  <!-- <md-content flex="auto" style="background: #eee;width:80%;height:270px;max-height:270px;"> -->
+  <div flex layout="row">
+   <!-- <md-content flex></md-content> -->
+  <!-- <md-content flex style="background: #eee;width:80%;"> -->
+    <md-content flex style="background: #eee;height:270px;max-height:270px;">
+
+    <!-- <md-card flex class="md-whiteframe-3dp" ng-repeat="message in messages" scroll-bottom="messages"> -->
+    <md-card flex class="md-whiteframe-3dp" ng-repeat="message in messages">
+      <md-card-content  layout="row" layout-padding>
+        <!-- <div layout="column" flex="10" layout-align="center center">
+          <h4 class="md-body-2 no-margin">Mote: <br> </h4>
+        </div> -->
+        <div layout="column" layout-align="space-around start" flex>
+          <div layout="row" layout-align="space-around start">
+            <p flex class="md-caption no-margin"><span hide-sm>Mote:</span><strong> {{message.mote}} </strong></p>
+            <p flex class="md-caption no-margin"><span hide-sm> Query:</span> <strong>{{message.query}}</strong></p>
+            <p flex class="md-caption no-margin"><span hide-sm> Response:</span> <strong>{{message.response}}</strong></p>
+          </div>
+          <!-- <h3 class="md-body-2 no-margin">{{message.text}}</h3> -->
+          <!-- <div layout="row">
+            <p class="md-caption no-margin">Votos: {{message.votes}}</p>
+            <span flex="3"></span>
+            <p class="md-caption no-margin">Comentarios: {{message.qtyComments}}</p>
+          </div> -->
+        </div>
+      </md-card-content>
+    </md-card>
+  </md-content>
+<!-- </section> -->
+</div>
+
+
   <!-- </md-content> -->
 
 

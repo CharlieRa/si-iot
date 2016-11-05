@@ -6,42 +6,58 @@
     /**
     * Controller de Messages
     **/
-    function moteCtrl($scope, $http, $timeout, $location, $mdDialog, $mdToast, $rootScope)
+    function moteCtrl($scope, $http, $timeout, $location, $mdDialog, $mdToast, $rootScope, $filter)
     {
-      $http.get('http://127.0.0.1:8888/api/motes')
-      .success(function(data, status, headers, config)
-      {
-        $scope.motes = data;
-        console.log(data);
-      })
-        /*ToDo Manejo de errores que se pueden producir */
-      .error(function(data, status, headers, config)
-      {
-        console.log('No hemos podido publicar tu mensaje');
-        console.log(data);
-      });
-
+      $scope.load = function () {
+        $http.get('http://127.0.0.1:8888/api/motes')
+        .success(function(data, status, headers, config) {
+          angular.forEach(data, function(value, key){
+            value.selected = false;
+          });
+          $scope.motes = data;
+          console.log(data);
+        })
+        .error(function(data, status, headers, config) {
+          $mdToast.show(
+            $mdToast.simple()
+            .content('Error: '+data)
+            .hideDelay(3000)
+          );
+        });
+      }
       $scope.errorMessage = "";
       $scope.messages = [];
       $scope.toggle = [{
         si: 'true',
         error: 'false',
-        progress: 'true'
+        progress: 'true',
+        commands: 'false'
       }];
-      console.log("asasdds");
       // $scope.currentUser = User.get();
-      /**
-      * Obtener Posicion de usuario por navegador cuando aplicación inicia
-      */
-      $scope.load = function () {
+
+      $scope.items = [1,2,3,4,5];
+      $scope.options = [
+        {value:'Option1', selected:true},
+        {value:'Option2', selected:false}
+      ];
+
+      $scope.toggleAll = function() {
+         var toggleStatus = !$scope.isAllSelected;
+         angular.forEach($scope.options, function(itm){ itm.selected = toggleStatus; });
       }
+
+      $scope.optionToggled = function(){
+        $scope.isAllSelected = $scope.options.every(function(itm){ return itm.selected; })
+      }
+
+      $scope.message = [];
       /**
       * Funcion encargada en enviar nuevos mensajes escritos por el usuario al servidor
       */
       $scope.addNewMote = function(ev){
         var parentEl = angular.element(document.body);
         $mdDialog.show({
-          controller: newMessageController,
+          controller: newMoteController,
           controllerAs: 'ctrl',
           clickOutsideToClose: true,
           locals: {
@@ -75,10 +91,6 @@
                               <label>EUI64</label>\
                               <input ng-readonly="toggleProgress" ng-model="newMote.eui64"></input>\
                             </md-input-container>\
-                            <md-input-container flex>\
-                              <label>Root</label>\
-                              <input ng-readonly="true" ng-model="newMote.dagroot"></input>\
-                            </md-input-container>\
                             <md-input-container>\
                               <md-switch ng-model="newMote.dagroot" ng-true-value="\'TRUE\'" ng-false-value="\'FALSE\'">Root</md-switch>\
                             </md-input-container>\
@@ -90,8 +102,8 @@
                         </md-dialog-content>\
                         <div class="md-actions" layout="row" ng-if="!toggleProgress">\
                           <span flex></span>\
-                          <md-button type="submit" ng-click="createMote()" class="md-primary"> Enviar </md-button>\
                           <md-button ng-click="cancelDialogAddMote()"> Volver </md-button>\
+                          <md-button type="submit" ng-click="createMote()" class="md-primary"> Enviar </md-button>\
                         </div>\
                       </form>\
                     </md-dialog>',
@@ -103,7 +115,7 @@
       //   <input ng-readonly="toggleProgress" ng-model="newMote.commands"></input>\
       // </md-input-container>\
       /* Controller del Dialog New Message */
-      function newMessageController($scope, $mdDialog, messages, currentUser, $mdToast, $http) {
+      function newMoteController($scope, $mdDialog, messages, currentUser, $mdToast, $http) {
         $scope.toggleProgress = false;
         $scope.messages = messages;
         $scope.cancelDialogAddMote = function() {
@@ -134,7 +146,7 @@
                    .content('Mensaje enviado exitosamente!')
                    .hideDelay(3000)
                );
-              $mdDialog.hide();
+              // $mdDialog.hide();
             })
               /*ToDo Manejo de errores que se pueden producir */
             .error(function(data, status, headers, config)
@@ -152,4 +164,44 @@
           }
         }
       };
+      $scope.getCommands = function (moteIps) {
+        var ipv6Array = [];
+        angular.forEach($scope.motes, function(value, key){
+          if(value.selected) {
+            ipv6Array.push(value.ipv6);
+          }
+         });
+         angular.forEach(ipv6Array, function(value, key){
+
+
+        // var ip = 'bbbb::12:4b00:3a5:6b3c';
+        // var moteReceived = $filter("filter")($scope.motes, {name:'a'});
+        // console.log(moteReceived);
+        $http.get('http://127.0.0.1:8888/api/commands/'+value)
+        .success(function(data, status, headers, config) {
+          console.log(data);
+          $mdToast.show($mdToast.simple()
+            .content('Mensaje recibido!')
+            .hideDelay(3000));
+            $scope.messages.push(data);
+            // $scope.messages.push(data);
+            var moteReceived = $filter("filter")($scope.motes, {ipv6:value}, true)[0];
+            var indice = $scope.motes.indexOf(moteReceived);
+            console.log(indice);
+            $scope.motes[indice].commands = data['response'];
+            console.log(moteReceived);
+        })
+        .error(function(data, status, headers, config) {
+          console.log(data);
+          console.log('Error: '+data['response']['code']);
+          $scope.toggleProgress = false;
+          $mdToast.show(
+             $mdToast.simple()
+               .content("Error: "+data['response']['code'])
+               .hideDelay(5000));
+        });
+        });
+      }
+
+
     }

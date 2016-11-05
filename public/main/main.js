@@ -11,16 +11,16 @@ angular
         controller: 'mainCtrl',
         authenticate: true
       })
+      .state('main.dashboard', {
+        templateUrl: 'main/dashboard/dashboard.html',
+        controller: 'dashboardCtrl',
+        authenticate: true
+      })
       .state('main.motes', {
         templateUrl: 'main/motes/motes.html',
         controller: 'motesCtrl',
         authenticate: true
       })
-      // .state('main.messages', {
-      //   templateUrl: 'main/messages/messages.html',
-      //   controller: 'messagesCtrl',
-      //   authenticate: true
-      // })
       // .state('main.comments', {
       //   url: 'comments/{id}',
       //   templateUrl: 'main/comments/comments.html',
@@ -37,7 +37,7 @@ angular
       //   controller: 'feedbacksCtrl',
       //   authenticate: true
       // });
-      $urlRouterProvider.otherwise('main/motes');
+      $urlRouterProvider.otherwise('main/dashboard');
   })
   .directive('scrollBottom', function ()
   {
@@ -56,7 +56,7 @@ angular
     }
   })
   .controller('mainCtrl', function ($scope, $state, $mdSidenav ,$mdDialog, $mdToast, $rootScope, $location) {
-    
+
     $state.transitionTo('main.motes');
 
     $scope.menuItems = [
