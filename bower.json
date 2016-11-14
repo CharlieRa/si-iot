@@ -20,7 +20,8 @@
     "angular-resource": "^1.5.8",
     "angular-ui-router": "^0.3.1",
     "lodash": "^4.16.4",
-    "satellizer": "^0.15.5"
+    "satellizer": "^0.15.5",
+    "angular-material-data-table": "^0.10.9"
   },
   "devDependencies": {
     "angular-apimock": "^0.3.3",

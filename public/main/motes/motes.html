@@ -1,4 +1,5 @@
-<md-content class="motes" flex layout="column" layout-align="start center" ng-style="{'background': '#eee'}" ng-init='load()'>
+<md-content class="motes" flex layout="column" layout-align="start" ng-style="{'background': '#eee'}" ng-init='load()'>
+  <md-progress-linear md-mode="indeterminate" ng-if="toggle.general"></md-progress-linear>
   <!-- Progress mientras se cargan los mensajes y se comprueba la geolocalizacion del usuario -->
   <!-- <md-progress-circular ng-if="!toggle.progress" md-mode="indeterminate"></md-progress-circular> -->
 
@@ -11,113 +12,144 @@
     </md-card-content>
   </md-card>
 
-  <!-- Div con los mensajes cercano al usuario -->
-  <!-- <md-content flex class="messagesContent"  scroll-bottom="messages">
-  </md-content> -->
-
-  <section layout="row" layout-sm="row" layout-align="end end" >
-    <md-button class="md-primary md-raised" ng-click="getCommands()" aria-label="Add">getCommands</md-button>
-    <md-button class="md-primary md-raised" ng-click="addNewMote($event)" aria-label="Add">Nuevo Mote</md-button>
-  </section>
-  <!-- <md-content> -->
-
-  <div class="table-responsive-vertical md-whiteframe-z1">
-    <table id="table" class="table table-hover table-bordered">
-      <thead>
-      <tr>
-          <th>#</th>
-          <th>Nombre</th>
-          <th>MAC</th>
-          <th>IPv6</th>
-          <th>EUI-64</th>
-          <th>PAN-ID</th>
-          <th>Commands <br>Available</th>
-          <th>
-            <md-checkbox aria-label="Select All"
-                        ng-checked="isChecked()"
-                        md-indeterminate="isIndeterminate()"
-                        ng-click="toggleAll()">
-             <span ng-if="isChecked()">Un-</span>
-           </md-checkbox>
-          </th>
-      </tr>
-      </thead>
-      <tbody>
-        <!-- <tr>
-          <td>lala</td>
-          <td colspan="6">;ala</td>
-          <td>lsala</td>
-        </tr> -->
-        <tr ng-repeat="mote in motes track by $index">
-            <td data-title="ID">{{$index + 1}}</td>
-            <td data-title="Nombre">{{mote.name}}</td>
-            <td data-title="MAC">{{mote.mac}}</td>
-            <td data-title="IPv6">{{mote.ipv6}}</td>
-            <td data-title="EUI-64">{{mote.eui64}}</td>
-            <td data-title="PAN-ID">{{mote.panid}}</td>
-            <td data-title="Commands">
-               <md-button ng-repeat="command in mote.commands">
-                 {{command}}
-               </md-button>
-            </td>
-            <td>
-              <!-- <md-checkbox aria-label="Mote Command" ng-model="mote.selected" ng-checked="exists(item, selected)" ng-click="toggle(item, selected)"> -->
-              <md-checkbox aria-label="Mote Command" ng-model="mote.selected">
-                 {{ item }}
-              </md-checkbox>
-            </td>
-        </tr>
-      </tbody>
-    </table>
-    <md-progress-linear md-mode="indeterminate" ng-if="toggle.commands"></md-progress-linear>
-  </div>
-  <br>
-
-  <!-- <section layout="row" layout-sm="row" layout-align="end center" >
-    <md-button class="md-primary md-raised" ng-click="getCommands()" aria-label="Add">getCommands</md-button>
-  </section> -->
-  <!-- <md-content flex="100" scroll-bottom="messages" ng-style="[{'background': '#eee', 'width':'90%'}]"> -->
-  <!-- <md-content flex="100" style="background: #eee;width:80%"> -->
-  <!-- <section layout="row" layout-sm="row" layout-align="end center" flex > -->
-  <!-- <md-content flex="auto" style="background: #eee;width:80%;height:270px;max-height:270px;"> -->
-  <div flex layout="row">
-   <!-- <md-content flex></md-content> -->
-  <!-- <md-content flex style="background: #eee;width:80%;"> -->
-    <md-content flex style="background: #eee;height:270px;max-height:270px;">
-
-    <!-- <md-card flex class="md-whiteframe-3dp" ng-repeat="message in messages" scroll-bottom="messages"> -->
-    <md-card flex class="md-whiteframe-3dp" ng-repeat="message in messages">
-      <md-card-content  layout="row" layout-padding>
-        <!-- <div layout="column" flex="10" layout-align="center center">
-          <h4 class="md-body-2 no-margin">Mote: <br> </h4>
-        </div> -->
-        <div layout="column" layout-align="space-around start" flex>
-          <div layout="row" layout-align="space-around start">
-            <p flex class="md-caption no-margin"><span hide-sm>Mote:</span><strong> {{message.mote}} </strong></p>
-            <p flex class="md-caption no-margin"><span hide-sm> Query:</span> <strong>{{message.query}}</strong></p>
-            <p flex class="md-caption no-margin"><span hide-sm> Response:</span> <strong>{{message.response}}</strong></p>
-          </div>
-          <!-- <h3 class="md-body-2 no-margin">{{message.text}}</h3> -->
-          <!-- <div layout="row">
-            <p class="md-caption no-margin">Votos: {{message.votes}}</p>
-            <span flex="3"></span>
-            <p class="md-caption no-margin">Comentarios: {{message.qtyComments}}</p>
-          </div> -->
+  <!-- <md-card flex="99" class="md-whiteframe-3dp" ng-show="commandsButtons.length">
+    <md-card-content  layout="row" layout-padding>
+        <div layout="row" layout-align="space-around start">
+          <md-radio-group ng-model="commandToSend.commands" layout="row" layout-align="start center">
+            <md-radio-button ng-repeat="button in commandsButtons" aria-label="label" value="{{button}}">
+              {{ button }}
+            </md-radio-button>
+          </md-radio-group>
         </div>
-      </md-card-content>
-    </md-card>
-  </md-content>
-<!-- </section> -->
-</div>
+
+        <div layout="row" layout-align="space-around start">
+          <md-button class="md-raised" ng-repeat="btn in commandsMethodsBtn track by $index" ng-click="method($index)" aria-label="Send Commands" title="Send Commands">
+            {{btn}}
+          </md-button
+          <md-radio-group ng-model="commandsMethods.methods" layout="row" layout-align="start center">
+            <md-radio-button ng-repeat="method in commandsMethods.methods" aria-label="label">
+              {{ method }}
+            </md-radio-button>
+          </md-radio-group>
+        </div>
+    </md-card-content>
+  </md-card> -->
 
 
-  <!-- </md-content> -->
+  <md-card>
+    <md-toolbar class="md-table-toolbar md-default" ng-show="commandsButtons.length">
+      <div class="md-toolbar-tools">
+        <span>Comandos</span>
+        <span flex></span>
+      </div>
+    </md-toolbar>
 
+    <div layout="row"  layout-align="center center" ng-show="commandsButtons.length">
+      <md-select ng-model="metodo" placeholder="Metodo" class="md-no-underline">
+        <md-option ng-repeat="btn in commandsMethodsBtn track by $index" value="{{btn}}">{{btn}}</md-option>
+      </md-select>
 
-  <!-- Boton para enviar nuevos mensajes -->
-  <!-- <md-button class="md-primary md-fab-bottom-right md-whiteframe-5dp" aria-label="Add" ng-click="showNewMessage($event)">
-    <md-icon md-svg-src="/dist/icons/ic_add_white_24px.svg"></md-icon>
-    Nuevo Mote
-  </md-button> -->
+      <div layout="row" layout-align="center" ng-repeat="button in commandsButtons">
+        <md-checkbox ng-model="commandsCheckbox">{{button}}</md-checkbox>
+      </div>
+      <md-input-container class="md-icon-float md-block" ng-readonly="formInput">
+        <label>Post/Put Value</label>
+        <input ng-model="user.username" type="text">
+      </md-input-container>
+
+      <md-button class="md-icon-button" ng-click="sendCommand()" aria-label="Send Commands" title="Send Commands">
+        <md-icon>send</md-icon>
+      </md-button>
+    </div>
+
+    <md-toolbar class="md-table-toolbar md-default">
+      <div class="md-toolbar-tools">
+        <span>Motes</span>
+        <span flex></span>
+         <md-button class="md-icon-button" ng-click="addNewMote($event)" aria-label="Add" title="Nuevo Mote">
+           <md-icon>add</md-icon>
+         </md-button>
+         <md-button class="md-icon-button" ng-click="getCommands()" aria-label="Get Commands" title="Get Commands">
+           <md-icon>get_app</md-icon>
+         </md-button>
+         <md-button class="md-icon-button" ng-click="sendCommands()" aria-label="Send Commands" title="Send Commands">
+           <md-icon>send</md-icon>
+         </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-table-container>
+      <table md-table md-row-select multiple ng-model="motesSelected">
+        <thead md-head>
+          <tr md-row>
+            <th md-column>#</th>
+            <th md-column>Nombre</th>
+            <th md-column>MAC</th>
+            <th md-column>IPv6</th>
+            <th md-column>PAN-ID</th>
+            <th md-column>Commands</th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr md-row md-select="mote" md-select-id="name" md-auto-select ng-repeat="mote in motes">
+            <td md-cell>{{$index + 1}}</td>
+            <td md-cell>{{mote.name}}</td>
+            <td md-cell>{{mote.mac}}</td>
+            <td md-cell>{{mote.ipv6}}</td>
+            <td md-cell>{{mote.panid}}</td>
+            <td md-cell>
+              <span ng-repeat="command in mote.commands">{{command}}&nbsp;</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+    <!-- <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{motes.count}}" md-on-paginate="getDesserts" md-page-select> -->
+    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{motes.count}}" md-page-select></md-table-pagination>
+  </md-card>
+  <md-progress-linear md-mode="indeterminate" ng-if="toggle.commands"></md-progress-linear>
+  <!-- </div> -->
+
+  <!-- <div flex layout="row"> -->
+  <!-- <md-card>
+    <md-virtual-repeat-container id="vertical-container">
+      <div md-virtual-repeat="message in messages"
+      class="repeated-item" flex>
+      <div layout="row" layout-align="space-around start">
+        <p flex class="md-caption no-margin"><span hide-sm>Mote:</span><strong> {{message.mote}} </strong></p>
+        <p flex class="md-caption no-margin"><span hide-sm> Query:</span> <strong>{{message.query}}</strong></p>
+        <p flex class="md-caption no-margin"><span hide-sm> Response:</span> <strong>{{message.response}}</strong></p>
+      </div>
+    </div>
+  </md-virtual-repeat-container> -->
+    <!-- <md-list flex>
+      <md-subheader class="md-no-sticky">Secondary Buttons</md-subheader>
+      <md-list-item class="secondary-button-padding">
+        <p>Clicking the button to the right will fire the secondary action</p>
+        <md-button class="md-secondary" ng-click="doSecondaryAction($event)">More Info</md-button>
+      </md-list-item>
+      <md-list-item class="secondary-button-padding" ng-click="doPrimaryAction($event)">
+        <p>Click anywhere to fire the primary action, or the button to fire the secondary</p>
+        <md-button class="md-secondary" ng-click="doSecondaryAction($event)">More Info</md-button>
+      </md-list-item>
+      </md-list-item>
+    </md-list> -->
+  <!-- </md-card> -->
+  <!-- </div> -->
+
+  <div flex layout="row">
+    <md-content flex style="background: #eee;height:100px;max-height:100px;">
+      <md-card flex class="md-whiteframe-3dp" ng-repeat="message in messages">
+        <md-card-content  layout="row" layout-padding>
+          <div layout="column" layout-align="space-around start" flex>
+            <div layout="row" layout-align="space-around start">
+              <p flex class="md-caption no-margin"><span>Mote:</span><strong> {{message.mote}} </strong></p>
+              <p flex class="md-caption no-margin"><span> Query:</span> <strong>{{message.query}}</strong></p>
+              <p flex class="md-caption no-margin"><span> Response:</span> <strong>{{message.response}}</strong></p>
+            </div>
+          </div>
+        </md-card-content>
+      </md-card>
+    </md-content>
+  </div>
 </md-content>
-<!-- <feedback-widget url='/api/feedbacks' thanks-text='Gracias!' /> -->
