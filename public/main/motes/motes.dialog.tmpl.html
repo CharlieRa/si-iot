@@ -1,0 +1,42 @@
+<md-dialog flex="40" aria-label="New Mote"> 
+  <form ng-submit="$event.preventDefault()" name="formNewMote" id="formNewMote">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Nuevo Mote</h2>
+      </div>
+    </md-toolbar>
+    <md-progress-linear ng-if="toggleProgress" md-mode="indeterminate"></md-progress-linear>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container flex>
+          <label>Nombre</label>
+          <input ng-readonly="toggleProgress" ng-model="newMote.name"></input>
+        </md-input-container>
+        <md-input-container flex>
+          <label>MAC</label>
+          <input ng-readonly="toggleProgress" ng-model="newMote.mac"></input>
+        </md-input-container>
+        <md-input-container flex>
+          <label>PANID</label>
+          <input ng-readonly="toggleProgress" ng-model="newMote.panid"></input>
+        </md-input-container>
+        <md-input-container flex>
+          <label>EUI64</label>
+          <input ng-readonly="toggleProgress" ng-model="newMote.eui64"></input>
+        </md-input-container>
+        <md-input-container>
+          <md-switch ng-model="newMote.dagroot" ng-true-value="'TRUE'" ng-false-value="'FALSE'">Root</md-switch>
+        </md-input-container>
+        <md-input-container flex>
+          <label>IPv6</label>
+          <input ng-readonly="toggleProgress" ng-model="newMote.ipv6"></input>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+    <div class="md-actions" layout="row" ng-if="!toggleProgress">
+      <span flex></span>
+      <md-button ng-click="cancelDialogAddMote()"> Volver </md-button>
+      <md-button type="submit" ng-click="createMote()" class="md-primary"> Enviar </md-button>
+    </div>
+  </form>
+</md-dialog>

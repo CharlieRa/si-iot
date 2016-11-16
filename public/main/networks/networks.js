@@ -1,41 +1,29 @@
   'use strict';
 
-  angular.module('si.motes', ['ui.router', 'ngMaterial', 'ngMessages', 'ngAnimate', 'md.data.table'])
-    .controller('motesCtrl', moteCtrl);
+  angular.module('si.networks', ['ui.router', 'ngMaterial', 'ngMessages', 'ngAnimate', 'md.data.table'])
+    .controller('networksCtrl', networkCtrl);
 
     /**
     * Controller de Messages
     **/
-    function moteCtrl($scope, $http, $timeout, $location, $mdDialog, $mdToast, $rootScope, $filter, MoteService, UserService)
+    function networkCtrl($scope, $http, $timeout, $location, $mdDialog, $mdToast, $rootScope, $filter, MoteService, UserService, NetworkService)
     {
-      $scope.motesSelected = [];
-      $scope.motes = [];
-      $scope.commandsButtons = [];
-      $scope.commandsCheckbox = [];
-      $scope.metodo = [];
-      $scope.commandsMethodsBtn = ['get', 'post', 'put', 'delete'];
-      $scope.messages = [];
       $scope.toggle = [{
-        si: 'true',
-        general: 'false',
-        error: 'false',
-        progress: 'true',
-        commands: 'false',
-        motes: 'true'
+        network: 'true'
       }];
-
+      $scope.networks = [];
       $scope.load = function () {
-        MoteService.getAll().then(function(response){
+        NetworkService.getAll().then(function(response){
           if(response['success'] === false) {
             $mdToast.show(
                $mdToast.simple()
                  .content('Error al intentar para obtener la información del servidor.')
                  .hideDelay(8000));
           }else{
-            $scope.motes = response;
+            $scope.networks = response;
           }
           console.log(response);
-          $scope.toggle.motes = false;
+          $scope.toggle.network = false;
         });
       };
 
@@ -43,62 +31,69 @@
       /**
       * Funcion encargada en enviar nuevos mensajes escritos por el usuario al servidor
       */
-      $scope.addNewMote = function(ev){
+      $scope.addNewNetwork = function(ev){
         var parentEl = angular.element(document.body);
         $mdDialog.show({
-          controller: newMoteController,
+          controller: newNetworkController,
           controllerAs: 'ctrl',
           clickOutsideToClose: true,
           locals: {
-            currentUser: $scope.currentUser,
-            messages: $scope.messages,
-            positionActual: $rootScope.positionActual
+            // currentUser: $scope.currentUser,
+            // messages: $scope.messages,
+            // positionActual: $rootScope.positionActual
           },
-          templateUrl:'main/motes/motes.dialog.tmpl.html',
+          templateUrl: '/main/networks/network.dialog.tmpl.html',
           targetEvent: ev,
         });
       }
-      function newMoteController($scope, $mdDialog, messages, currentUser, $mdToast, $http) {
+      function newNetworkController($scope, $mdDialog, $mdToast, MoteService, UserService) {
+        $scope.motes = [];
+        $scope.motesSelected = [];
+        $scope.users = [];
+        $scope.usersSelected = [];
+        // $scope.newNetwork = [];
         $scope.toggleProgress = false;
-        $scope.messages = messages;
-        $scope.cancelDialogAddMote = function() {
+
+        /* Se obtienen los motes a asignar */
+        MoteService.getAll().then(function(response){
+          if(response['success'] === false) {
+            $mdToast.show(
+               $mdToast.simple()
+                 .content('Error al intentar para obtener los motes a asignar a la Red.')
+                 .hideDelay(5000));
+          }else{
+            $scope.motes = response;
+          }
+        });
+
+        /* Se obtienen los usuarios a asignar */
+        UserService.getAll().then(function(response){
+          if(response['success'] === false) {
+            $mdToast.show(
+               $mdToast.simple()
+                 .content('Error al intentar para obtener los motes a asignar a la Red.')
+                 .hideDelay(5000));
+          }else{
+            $scope.users = response;
+          }
+        });
+
+        /* Cancel dialog */
+        $scope.cancelDialog = function() {
           $mdDialog.cancel();
         };
 
-        $scope.createMote = function()
+        /* Create Network*/
+        $scope.createNetwork = function()
         {
-          $scope.toggleProgress = false;
-          console.log($scope.newMote);
+          $scope.toggleProgress = true;
+          $scope.newNetwork.motes = $scope.motesSelected;
+          $scope.newNetwork.users = $scope.usersSelected;
 
           /* Se comprueba que el mensaje no este vacío*/
-          // if(!$scope.mote == "")
-          if($scope.newMote)
-          {
-            $scope.toggleProgress = true;
-            console.log('Guardando a server', $scope.newMote);
-            // $http.post('http://54.207.86.25/api/posts',newPost)
-            $http.post('http://127.0.0.1:8888/api/motes',$scope.newMote)
-            .success(function(data, status, headers, config)
-            {
-              console.log(data);
-              $mdToast.show(
-                 $mdToast.simple()
-                   .content('Mensaje enviado exitosamente!')
-                   .hideDelay(3000)
-               );
-              // $mdDialog.hide();
-            })
-              /*ToDo Manejo de errores que se pueden producir */
-            .error(function(data, status, headers, config)
-            {
-              console.log('No hemos podido publicar tu mensaje');
-              console.log(data);
-              $scope.toggleProgress = false;
-              $mdToast.show(
-                 $mdToast.simple()
-                   .content('No hemos podido publicar tu mensaje, intentalo nuevamente.')
-                   .hideDelay(5000));
-            });
+          if($scope.newNetwork) {
+            console.log('Guardando a server', $scope.newNetwork);
+            NetworkService.Create($scope.newNetwork);
           }else{
             console.log("malo");
           }
@@ -150,7 +145,7 @@
         $scope.toggle.general = true;
         var ipv6Array = [];
         angular.forEach($scope.motesSelected, function(value, key){
-          MoteService.getAllCommands(value.ipv6).then(function(response){
+          NetworkService.getAllCommands(value.ipv6).then(function(response){
             if(response['success'] === false) {
               $mdToast.show(
                  $mdToast.simple()

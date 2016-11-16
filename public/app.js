@@ -8,6 +8,7 @@ angular
     'si.main',
     'si.dashboard',
     'si.motes',
+    'si.networks',
     'ngCookies',
     'ngResource',
     'satellizer',

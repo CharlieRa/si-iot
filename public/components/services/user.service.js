@@ -8,24 +8,24 @@
     function UserService($http) {
         var service = {};
         var url = 'http://127.0.0.1:8888';
-        service.GetAll = GetAll;
-        service.GetById = GetById;
-        service.GetByUsername = GetByUsername;
+        service.getAll = getAll;
+        service.getById = getById;
+        service.getByUsername = getByUsername;
         service.Create = Create;
         service.Update = Update;
         service.Delete = Delete;
 
         return service;
 
-        function GetAll() {
+        function getAll() {
             return $http.get(url+'/api/users').then(handleSuccess, handleError('Error getting all users'));
         }
 
-        function GetById(id) {
+        function getById(id) {
             return $http.get(url+'/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
         }
 
-        function GetByUsername(username) {
+        function getByUsername(username) {
             return $http.get(url+'/api/users/' + username).then(handleSuccess, handleError('Error getting user by username'));
         }
 

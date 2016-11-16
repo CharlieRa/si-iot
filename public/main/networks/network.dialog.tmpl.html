@@ -1,0 +1,44 @@
+<md-dialog flex aria-label="New Mote">
+    <form ng-submit="$event.preventDefault()" name="formNewNetwork" id="formNewNetwork">
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h2>Nueva Red</h2>
+        </div>
+      </md-toolbar>
+      <md-progress-linear ng-if="toggleProgress" md-mode="indeterminate"></md-progress-linear>
+      <md-dialog-content>
+        <div class="md-dialog-content">
+          <md-input-container flex>
+            <label>Nombre de la Red</label>
+            <input ng-readonly="toggleProgress" ng-model="newNetwork.name"></input>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Dirección</label>
+            <input ng-readonly="toggleProgress" ng-model="newNetwork.address"></input>
+          </md-input-container>
+          <md-input-container flex>
+            <label>PANID</label>
+            <input ng-readonly="toggleProgress" ng-model="newNetwork.panid"></input>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Motes</label>
+            <md-select multiple ng-model="motesSelected">
+              <md-option ng-repeat="mote in motes" value="{{mote._id}}">{{mote.ipv6}}</md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Users</label>
+            <md-select multiple ng-model="usersSelected">
+              <md-option ng-repeat="user in users" value="{{user._id}}">{{user.username}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+      </md-dialog-content>
+      <!-- <div class="md-actions" layout="row" ng-if="!toggleProgress"> -->
+      <div class="md-actions" layout="row">
+        <span flex></span>
+        <md-button ng-click="cancelDialog()"> Volver </md-button>
+        <md-button type="submit" ng-click="createNetwork()" class="md-primary"> Enviar </md-button>
+      </div>
+    </form>
+  </md-dialog>

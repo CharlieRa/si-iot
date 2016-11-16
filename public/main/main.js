@@ -21,12 +21,11 @@ angular
         controller: 'motesCtrl',
         authenticate: true
       })
-      // .state('main.comments', {
-      //   url: 'comments/{id}',
-      //   templateUrl: 'main/comments/comments.html',
-      //   controller: 'commentsCtrl',
-      //   authenticate: true
-      // })
+      .state('main.networks', {
+        templateUrl: 'main/networks/networks.html',
+        controller: 'networksCtrl',
+        authenticate: true
+      })
       // .state('main.perfil', {
       //   templateUrl: 'main/perfil/perfil.html',
       //   controller: 'perfilCtrl',
@@ -66,22 +65,36 @@ angular
         sref: '.dashboard'
       },
       {
+        name: 'Redes',
+        icon: 'timeline',
+        sref: '.networks'
+      },
+      {
         name: 'Motes',
         icon: 'view_module',
         sref: '.motes'
       },
       {
-        name: 'Profile',
-        icon: 'person',
-        sref: '.profile'
+        name: 'Table',
+        icon: 'view_module',
+        sref: '.table'
       },
       {
         name: 'Table',
         icon: 'view_module',
         sref: '.table'
-      }
+      },
+      {
+        name: 'Table',
+        icon: 'view_module',
+        sref: '.table'
+      },
     ];
 
+    /**/
+    $scope.selectItem = function(item) {
+      $mdSidenav('left').close();
+    }
 
     $scope.notificationToast = function() {
       $mdToast.show({
@@ -103,7 +116,7 @@ angular
       $location.path('/logout');
     };
     $scope.si = function() {
-      $state.transitionTo('main.motes');
+      $state.transitionTo('main.networks');
     };
     $scope.isActive = function(route) {
       return route === $location.path();
