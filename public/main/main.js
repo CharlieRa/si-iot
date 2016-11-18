@@ -26,16 +26,17 @@ angular
         controller: 'networksCtrl',
         authenticate: true
       })
-      // .state('main.perfil', {
-      //   templateUrl: 'main/perfil/perfil.html',
-      //   controller: 'perfilCtrl',
-      //   authenticate: true
-      // })
+      .state('main.users', {
+        templateUrl: 'main/users/users.html',
+        controller: 'usersCtrl',
+        authenticate: true
+      })
       // .state('main.feedbacks', {
       //   templateUrl: 'main/feedbacks/feedbacks.html',
       //   controller: 'feedbacksCtrl',
       //   authenticate: true
       // });
+      // $mdButtonProvider.disableWarnings();
       $urlRouterProvider.otherwise('main/dashboard');
   })
   .directive('scrollBottom', function ()
@@ -54,42 +55,50 @@ angular
       }
     }
   })
-  .controller('mainCtrl', function ($scope, $state, $mdSidenav ,$mdDialog, $mdToast, $rootScope, $location) {
+  .controller('mainCtrl', function ($scope, $state, $mdSidenav ,$mdDialog, $mdToast, $rootScope, $location, UserService) {
+    UserService.getApiMe().then(function(response, err){
+      $scope.user = response;
+      // console.log($scope.user);
+      if($scope.user.admin) {
+        $scope.menuItems = [
+          {
+            name: 'Dashboard',
+            icon: 'dashboard',
+            sref: '.dashboard'
+          },
+          {
+            name: 'Redes',
+            icon: 'timeline',
+            sref: '.networks'
+          },
+          {
+            name: 'Motes',
+            icon: 'view_module',
+            sref: '.motes'
+          },
+          {
+            name: 'Usuarios',
+            icon: 'person',
+            sref: '.users'
+          }
+        ];
+      }else{
+        $scope.menuItems = [
+          {
+            name: 'Dashboard',
+            icon: 'dashboard',
+            sref: '.dashboard'
+          },
+          {
+            name: 'Motes',
+            icon: 'view_module',
+            sref: '.motes'
+          },
+        ];
+      }
+    });
 
     $state.transitionTo('main.motes');
-
-    $scope.menuItems = [
-      {
-        name: 'Dashboard',
-        icon: 'dashboard',
-        sref: '.dashboard'
-      },
-      {
-        name: 'Redes',
-        icon: 'timeline',
-        sref: '.networks'
-      },
-      {
-        name: 'Motes',
-        icon: 'view_module',
-        sref: '.motes'
-      },
-      {
-        name: 'Table',
-        icon: 'view_module',
-        sref: '.table'
-      },
-      {
-        name: 'Table',
-        icon: 'view_module',
-        sref: '.table'
-      },
-      {
-        name: 'Table',
-        icon: 'view_module',
-        sref: '.table'
-      },
-    ];
 
     /**/
     $scope.selectItem = function(item) {
@@ -130,44 +139,4 @@ angular
     $scope.go = function(path){
       $state.transitionTo(path);
     }
-    $scope.openNotifications = function() {
-      $mdSidenav('right').open()
-    };
-    $scope.closeNotifications = function() {
-      $mdSidenav('right').close()
-    };
   })
-  .controller('ToastCtrl', function($scope, $mdToast, $state, $rootScope) {
-    $scope.closeToast = function() {
-      $mdToast.hide();
-    };
-
-    $scope.showActionToast = function() {
-      $state.go('main.comments', {id: '5670caffc36b80f54793c8f5'});
-      $mdToast.hide();
-      console.log($rootScope.notifications);
-    };
-
-    $scope.getNotifications = function(userId)
-    {
-      if(userId === undefined)
-        return false;
-      else{
-        $http.post('/api/notifications',{
-          content : userId
-        })
-        .success(function(data, status, headers, config)
-        {
-          console.log(data);
-          if(data.length == 0)
-          {
-            console.log("no hay notificaciones");
-          }
-        })
-        .error(function(data, status, headers, config)
-        {
-          console.log("error al obtener notificaiones");
-        });
-      }
-    };
-  });

@@ -13,10 +13,15 @@
         service.Create = Create;
         service.Update = Update;
         service.Delete = Delete;
+        service.getByUsers = getByUsers;
 
         return service;
 
         function GetAll() {
+            return $http.get(url+'/api/networks').then(handleSuccess, handleError('Error getting all networks'));
+        }
+
+        function getByUsers(user) {
             return $http.get(url+'/api/networks').then(handleSuccess, handleError('Error getting all networks'));
         }
 

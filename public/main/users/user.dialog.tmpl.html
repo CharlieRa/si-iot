@@ -1,0 +1,30 @@
+<md-dialog flex aria-label="New Mote">
+  <form ng-submit="$event.preventDefault()" name="formnewUser" id="formnewUser">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Nuevo Usuario</h2>
+      </div>
+    </md-toolbar>
+    <md-progress-linear ng-if="toggleProgress" md-mode="indeterminate"></md-progress-linear>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container flex>
+          <label>Username</label>
+          <input ng-readonly="toggleProgress" ng-model="newUser.username"></input>
+        </md-input-container>
+        <md-input-container flex>
+          <label>Password</label>
+          <input type="password" ng-readonly="toggleProgress" ng-model="newUser.password"></input>
+        </md-input-container>
+        <md-input-container>
+          <md-switch ng-model="newUser.admin" ng-true-value="'TRUE'" ng-false-value="'FALSE'">Admin</md-switch>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" ng-if="!toggleProgress">
+      <span flex></span>
+      <md-button ng-click="cancelDialogAddUser()"> Volver </md-button>
+      <md-button type="submit" ng-click="createUser()" class="md-primary"> Enviar </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -7,6 +7,7 @@ angular
     'si.logout',
     'si.main',
     'si.dashboard',
+    'si.users',
     'si.motes',
     'si.networks',
     'ngCookies',
@@ -75,10 +76,6 @@ angular
       // check if this state need login
       if (next.authenticate)
         requiredLogin = true;
-
-      // if yes and if this user is not logged in, redirect him to login page
-      console.log(requiredLogin);
-      console.log($auth.isAuthenticated());
 
       if (requiredLogin && !$auth.isAuthenticated()) {
         event.preventDefault();

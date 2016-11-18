@@ -13,7 +13,7 @@ angular
   })
   .controller('loginCtrl', loginCtrl);
 
-  function loginCtrl ($scope, $auth, $state)
+  function loginCtrl ($scope, $auth, $state, UserService, $mdToast)
   {
     $scope.authenticate = function(provider) {
       $auth.authenticate(provider);
@@ -27,22 +27,26 @@ angular
     }
 
     $scope.login = function() {
-      console.log($scope.user);
       if(!angular.isDefined($scope.user)){
         return false;
       }
 
       if(!$scope.user.username && !$scope.user.password) {
       }else{
-        console.log($scope.user);
         $scope.loading = true;
         $scope.formInput = true;
         $auth.login($scope.user).then(function(data) {
-          console.log(data);
+          UserService.setUser($auth.getPayload()._doc);
           $state.go('main');
         })
         .catch(function (response) {
           console.log("error response", response);
+          $scope.loading = false;
+          $scope.formInput = false;
+          $mdToast.show(
+            $mdToast.simple()
+            .content("Crendeciales incorrectas.")
+            .hideDelay(5000));
         });
       }
     }

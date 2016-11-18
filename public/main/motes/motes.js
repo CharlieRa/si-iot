@@ -70,34 +70,16 @@
           $scope.toggleProgress = false;
           console.log($scope.newMote);
 
-          /* Se comprueba que el mensaje no este vacío*/
-          // if(!$scope.mote == "")
-          if($scope.newMote)
-          {
+          if($scope.newMote) {
             $scope.toggleProgress = true;
             console.log('Guardando a server', $scope.newMote);
-            // $http.post('http://54.207.86.25/api/posts',newPost)
-            $http.post('http://127.0.0.1:8888/api/motes',$scope.newMote)
-            .success(function(data, status, headers, config)
-            {
-              console.log(data);
+            MoteService.Create($scope.newMote).then(function(response) {
               $mdToast.show(
                  $mdToast.simple()
-                   .content('Mensaje enviado exitosamente!')
+                   .content('Mote Creado!')
                    .hideDelay(3000)
                );
-              // $mdDialog.hide();
-            })
-              /*ToDo Manejo de errores que se pueden producir */
-            .error(function(data, status, headers, config)
-            {
-              console.log('No hemos podido publicar tu mensaje');
-              console.log(data);
-              $scope.toggleProgress = false;
-              $mdToast.show(
-                 $mdToast.simple()
-                   .content('No hemos podido publicar tu mensaje, intentalo nuevamente.')
-                   .hideDelay(5000));
+               $scope.toggleProgress = false;
             });
           }else{
             console.log("malo");
@@ -174,6 +156,41 @@
           })
         });
         $scope.toggle.general = false;
+      }
+
+      /**
+      * Funcion que elimina usuarios
+      */
+      $scope.deleteMote = function(ev) {
+
+        if($scope.motesSelected.length == 0 || $scope.motesSelected.length > 1) {
+          $mdToast.show(
+            $mdToast.simple()
+            .content("Solo puedes eliminar un mote a la vez")
+            .hideDelay(5000));
+            $mdDialog.cancel();
+          return;
+        }
+        var confirm = $mdDialog.confirm()
+        .title('Estas seguro que deseas eliminar el mote con ip '+$scope.motesSelected[0].ipv6+' ?')
+        // .textContent('All of the banks have agreed to forgive you your debts.')
+        .ariaLabel('Eliminar Mote')
+        .targetEvent(ev)
+        .ok('Eliminar Mote')
+        .cancel('Cancelar');
+
+        $mdDialog.show(confirm).then(function() {
+          MoteService.Delete($scope.motesSelected[0]._id).then(function(response){
+            console.log(response);
+            var indice = $scope.motes.indexOf($scope.motesSelected[0]);
+            $scope.motes.splice(indice, 1);
+            $scope.motesSelected = [];
+            $mdToast.show(
+              $mdToast.simple()
+              .content("Mote eliminado exitosamente!.")
+              .hideDelay(5000));
+          });
+        });
       }
 
 

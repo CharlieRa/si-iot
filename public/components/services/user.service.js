@@ -6,6 +6,7 @@
 
     UserService.$inject = ['$http'];
     function UserService($http) {
+        var user;
         var service = {};
         var url = 'http://127.0.0.1:8888';
         service.getAll = getAll;
@@ -14,8 +15,23 @@
         service.Create = Create;
         service.Update = Update;
         service.Delete = Delete;
+        service.getMe = getMe;
+        service.setUser = setUser;
+        service.getApiMe = getApiMe;
 
         return service;
+
+        function setUser(aUser) {
+          user = aUser;
+        }
+
+        function getMe() {
+            return user;
+        }
+
+        function getApiMe() {
+          return $http.get(url+'/api/me').then(handleSuccess, handleError('Error getting all users'));
+        }
 
         function getAll() {
             return $http.get(url+'/api/users').then(handleSuccess, handleError('Error getting all users'));
@@ -30,11 +46,12 @@
         }
 
         function Create(user) {
-            return $http.post(url+'/api/users', user).then(handleSuccess, handleError('Error creating user'));
+          // return $http.post(url+'/api/users', user).then(handleSuccess, handleError('Error creating user'));
+            return $http.post(url+'/api/signup', user).then(handleSuccess, handleError('Error creating user'));
         }
 
         function Update(user) {
-            return $http.put(url+'/api/users/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
+            return $http.put(url+'/api/users/' + user._id, user).then(handleSuccess, handleError('Error updating user'));
         }
 
         function Delete(id) {

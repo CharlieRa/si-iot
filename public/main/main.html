@@ -1,8 +1,9 @@
 <!-- <div class="main" layout="row" layout-fill class="navbar md-whiteframe-z4" ng-style="{'background': '#eee'}"> -->
+<!-- md-is-locked-open="$mdMedia('gt-sm')" -->
   <md-sidenav
-        class="md-sidenav-left"
+        class="md-whiteframe-z2 md-sidenav-left"
         md-component-id="left"
-        md-is-locked-open="$mdMedia('gt-md')"
+        md-is-locked-open="$mdMedia('min-width: 700px')"
         md-whiteframe="4"
         md-swipe-left="closeSideNav()">
     <!-- <md-toolbar md-theme="custom" class="md-hue-1 md-whiteframe-z2"> -->
@@ -14,13 +15,13 @@
       </div>
     </md-toolbar>
 
-    <md-button ng-repeat-start="item in menuItems" layout="column" layout-align="center center"
-               flex class="capitalize" ng-click="selectItem(item)"
+    <md-button flex ng-repeat-start="item in menuItems" layout="column" layout-align="center center"
+              ng-click="selectItem(item)"
                ui-sref-active="md-warn" ui-sref="{{item.sref}}">
-        <div hide-sm hide-md class="md-tile-content">
+        <div class="md-tile-content">
             <i class="material-icons md-36">{{item.icon}}</i>
         </div>
-        <div class="md-tile-content">
+        <div class="md-tile-content text-md-12">
             {{item.name}}
         </div>
     </md-button>
@@ -30,7 +31,7 @@
   <div layout="column" class="bg-color" flex>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" ng-click="showSideNav()" hide-gt-md aria-label="Menu">
+        <md-button class="md-icon-button" ng-click="showSideNav()" hide-gt-sm aria-label="Menu">
           <md-icon md-svg-src="/dist/icons/ic_menu_24px.svg"></md-icon>
         </md-button>
         <md-button ui-sref="main.dashboard" aria-label="Yelling">
@@ -39,7 +40,8 @@
         <span flex></span>
         <!-- Menu de opciones de usuario logueado -->
         <md-menu md-position-mode="target-right target" >
-          <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+          <md-button aria-label="Open demo menu" ng-click="$mdOpenMenu($event)">
+            {{user.username}}
             <md-icon md-menu-origin class="swing" md-svg-icon="/dist/icons/ic_account_box_24px.svg"></md-icon>
           </md-button>
           <md-menu-content width="4" >
@@ -55,6 +57,9 @@
         </md-menu>
       </div>
     </md-toolbar>
-    <div md-swipe-left="openNotifications()" md-swipe-right="showSideNav()" class="ui-view"></div>
+    <md-content flex class="md-padding page-content">
+        <div ui-view md-swipe-right="showSideNav()"></div>
+    </md-content>
+    <!-- <div md-swipe-left="openNotifications()" md-swipe-right="showSideNav()" class="ui-view" flex></div> -->
   </div>
 <!-- </div> -->
