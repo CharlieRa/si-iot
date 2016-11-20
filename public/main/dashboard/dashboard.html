@@ -1,3 +1,125 @@
+<div layout="row">
+  <md-button class="md-raised md-primary" ng-click="startPacketCollection()">Iniciar recoleccion de Datos</md-button>
+  <md-button class="md-raised md-primary" ng-click="refreshStat()">Actualizar Stat</md-button>
+</div>
+<!-- <div layout-gt-sm="row"> -->
+<div layout="row">
+  <md-card flex>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Card with image</span>
+        <span class="md-subhead">Large</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <canvas id="pie" class="chart chart-pie" chart-data="data" chart-labels="labels" chart-options="options">
+      </canvas>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button>Action 1</md-button>
+      <md-button>Action 2</md-button>
+    </md-card-actions>
+  </md-card>
+
+  <!-- <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Card with image</span>
+        <span class="md-subhead">Large</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button>Action 1</md-button>
+      <md-button>Action 2</md-button>
+    </md-card-actions>
+  </md-card>
+
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Card with image</span>
+        <span class="md-subhead">Large</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button>Action 1</md-button>
+      <md-button>Action 2</md-button>
+    </md-card-actions>
+  </md-card> -->
+</div>
+<!-- <div flex layout="row">
+  <md-content flex style="background: #eee;height:150px;max-height:150px;">
+    <md-card flex class="md-whiteframe-3dp" ng-repeat="packet in packets">
+      <md-card-content  layout="row" layout-padding>
+        <div layout="column" layout-align="space-around start" flex>
+          <div layout="row" layout-align="space-around start">
+            <p flex class="md-caption no-margin"><span>Mote:</span><strong> {{packet.panid}} </strong></p>
+          </div>
+        </div>
+      </md-card-content>
+    </md-card>
+  </md-content>
+</div> -->
+
+<div layout-gt-md="row">
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Raw Packets</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content  layout="row" layout-padding>
+      <md-content flex style="background: #ffffff;height:150px;max-height:150px;">
+        <div layout="column" layout-align="space-around start" flex>
+            <div layout="row" layout-align="start start" ng-repeat="packet in packets" flex>
+              <p flex class="md-caption no-margin"><strong>{{packet.panid}}</strong></p>
+              <p flex class="md-caption no-margin"><strong>{{packet.highest_layer}}</strong></p>
+              <p flex class="md-caption no-margin"><strong>{{packet.local_ipv6_src}}</strong></p>
+              <p flex class="md-caption no-margin"><strong>{{packet.local_ipv6_dst}}</strong></p>
+              <p flex class="md-caption no-margin"><strong>{{packet.ipv6_src}}</strong></p>
+              <p flex class="md-caption no-margin"><strong>{{packet.ipv6_dst}}</strong></p>
+              <p flex class="md-caption no-margin"><strong>{{packet.coap_code}}</strong></p>
+              <!-- <p flex class="md-caption no-margin"><strong>layers{{packet.: }}</strong></p> -->
+              <p flex class="md-caption no-margin"><strong>{{packet.src_port}}</strong></p>
+              <p flex class="md-caption no-margin"><strong>{{packet.dst_port}}</strong></p>
+            </div>
+        </div>
+      </md-content>
+    </md-card-content>
+    <!-- <md-card-actions layout="row" layout-align="end center">
+      <md-button>Action 1</md-button>
+      <md-button>Action 2</md-button>
+    </md-card-actions> -->
+  </md-card>
+<!--
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Card with image</span>
+        <span class="md-subhead">Large</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button>Action 1</md-button>
+      <md-button>Action 2</md-button>
+    </md-card-actions>
+  </md-card>
+
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Card with image</span>
+        <span class="md-subhead">Large</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button>Action 1</md-button>
+      <md-button>Action 2</md-button>
+    </md-card-actions>
+  </md-card> -->
+</div>
+
+<!--
 <div layout-gt-md="row">
   <md-card>
     <md-card-title>
@@ -5,9 +127,6 @@
         <span class="md-headline">Card with image</span>
         <span class="md-subhead">Large</span>
       </md-card-title-text>
-      <md-card-title-media>
-        <div class="md-media-lg card-media"></div>
-      </md-card-title-media>
     </md-card-title>
     <md-card-actions layout="row" layout-align="end center">
       <md-button>Action 1</md-button>
@@ -21,9 +140,6 @@
         <span class="md-headline">Card with image</span>
         <span class="md-subhead">Large</span>
       </md-card-title-text>
-      <md-card-title-media>
-        <div class="md-media-lg card-media"></div>
-      </md-card-title-media>
     </md-card-title>
     <md-card-actions layout="row" layout-align="end center">
       <md-button>Action 1</md-button>
@@ -37,156 +153,10 @@
         <span class="md-headline">Card with image</span>
         <span class="md-subhead">Large</span>
       </md-card-title-text>
-      <md-card-title-media>
-        <div class="md-media-lg card-media"></div>
-      </md-card-title-media>
     </md-card-title>
     <md-card-actions layout="row" layout-align="end center">
       <md-button>Action 1</md-button>
       <md-button>Action 2</md-button>
     </md-card-actions>
   </md-card>
-</div>
-
-
-<div layout-gt-md="row">
-  <md-card>
-    <md-card-title>
-      <md-card-title-text>
-        <span class="md-headline">Card with image</span>
-        <span class="md-subhead">Large</span>
-      </md-card-title-text>
-      <md-card-title-media>
-        <div class="md-media-lg card-media"></div>
-      </md-card-title-media>
-    </md-card-title>
-    <md-card-actions layout="row" layout-align="end center">
-      <md-button>Action 1</md-button>
-      <md-button>Action 2</md-button>
-    </md-card-actions>
-  </md-card>
-
-  <md-card>
-    <md-card-title>
-      <md-card-title-text>
-        <span class="md-headline">Card with image</span>
-        <span class="md-subhead">Large</span>
-      </md-card-title-text>
-      <md-card-title-media>
-        <div class="md-media-lg card-media"></div>
-      </md-card-title-media>
-    </md-card-title>
-    <md-card-actions layout="row" layout-align="end center">
-      <md-button>Action 1</md-button>
-      <md-button>Action 2</md-button>
-    </md-card-actions>
-  </md-card>
-
-  <md-card>
-    <md-card-title>
-      <md-card-title-text>
-        <span class="md-headline">Card with image</span>
-        <span class="md-subhead">Large</span>
-      </md-card-title-text>
-      <md-card-title-media>
-        <div class="md-media-lg card-media"></div>
-      </md-card-title-media>
-    </md-card-title>
-    <md-card-actions layout="row" layout-align="end center">
-      <md-button>Action 1</md-button>
-      <md-button>Action 2</md-button>
-    </md-card-actions>
-  </md-card>
-</div>
-
-
-<div layout-gt-md="row">
-  <md-card>
-    <md-card-title>
-      <md-card-title-text>
-        <span class="md-headline">Card with image</span>
-        <span class="md-subhead">Large</span>
-      </md-card-title-text>
-      <md-card-title-media>
-        <div class="md-media-lg card-media"></div>
-      </md-card-title-media>
-    </md-card-title>
-    <md-card-actions layout="row" layout-align="end center">
-      <md-button>Action 1</md-button>
-      <md-button>Action 2</md-button>
-    </md-card-actions>
-  </md-card>
-
-  <md-card>
-    <md-card-title>
-      <md-card-title-text>
-        <span class="md-headline">Card with image</span>
-        <span class="md-subhead">Large</span>
-      </md-card-title-text>
-      <md-card-title-media>
-        <div class="md-media-lg card-media"></div>
-      </md-card-title-media>
-    </md-card-title>
-    <md-card-actions layout="row" layout-align="end center">
-      <md-button>Action 1</md-button>
-      <md-button>Action 2</md-button>
-    </md-card-actions>
-  </md-card>
-
-  <md-card>
-    <md-card-title>
-      <md-card-title-text>
-        <span class="md-headline">Card with image</span>
-        <span class="md-subhead">Large</span>
-      </md-card-title-text>
-      <md-card-title-media>
-        <div class="md-media-lg card-media"></div>
-      </md-card-title-media>
-    </md-card-title>
-    <md-card-actions layout="row" layout-align="end center">
-      <md-button>Action 1</md-button>
-      <md-button>Action 2</md-button>
-    </md-card-actions>
-  </md-card>
-</div>
-
-  <!-- <div flex-xs flex-gt-xs="50" layout="row">
-    <div flex-xs flex-gt-xs="50" layout="column" ng-repeat="item in [1,2,3]">
-      <md-card>
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Card with image</span>
-            <span class="md-subhead">Large</span>
-          </md-card-title-text>
-          <md-card-title-media>
-            <div class="md-media-lg card-media"></div>
-          </md-card-title-media>
-        </md-card-title>
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button>Action 1</md-button>
-          <md-button>Action 2</md-button>
-        </md-card-actions>
-      </md-card>
-    </div>
-  </div>
-
-  <div flex-xs flex-gt-xs="50" layout="row">
-    <div flex-xs flex-gt-xs="50" layout="column" ng-repeat="item in [1,2,3]">
-      <md-card>
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Card with image</span>
-            <span class="md-subhead">Large</span>
-          </md-card-title-text>
-          <md-card-title-media>
-            <div class="md-media-lg card-media"></div>
-          </md-card-title-media>
-        </md-card-title>
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button>Action 1</md-button>
-          <md-button>Action 2</md-button>
-        </md-card-actions>
-      </md-card>
-    </div>
-  </div>
-</md-content> -->
+</div> -->

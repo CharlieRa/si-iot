@@ -20,18 +20,26 @@
       </div>
     </md-toolbar>
 
-    <div layout="row"  layout-align="center center" ng-show="commandsButtons.length">
-      <md-select ng-model="metodo" placeholder="Metodo" class="md-no-underline">
+    <div layout="row"  layout-align="space-around center" ng-show="commandsButtons.length">
+      <md-select ng-model="metodo" placeholder="Metodo" class="md-no-underline" >
         <md-option ng-repeat="btn in commandsMethodsBtn track by $index" value="{{btn}}">{{btn}}</md-option>
       </md-select>
 
-      <div layout="row" layout-align="center" ng-repeat="button in commandsButtons">
-        <md-checkbox ng-model="commandsCheckbox">{{button}}</md-checkbox>
-      </div>
-      <md-input-container class="md-icon-float md-block" ng-readonly="formInput">
+      <!-- <div layout="row" layout-align="center" ng-repeat="command in commandsButtons">
+        <md-checkbox ng-model="commandsCheckbox">{{command}}</md-checkbox>
+      </div> -->
+
+      <md-radio-group ng-model="commandModel" class="md-primary" layout="row" layout-align="start center">
+        <md-radio-button ng-repeat="command in commandsButtons"
+                         ng-value="command" >
+            {{ command}}
+        </md-radio-button>
+      </md-radio-group>
+
+      <!-- <md-input-container class="md-icon-float md-block" ng-readonly="formInput">
         <label>Post/Put Value</label>
         <input ng-model="user.username" type="text">
-      </md-input-container>
+      </md-input-container> -->
 
       <md-button class="md-icon-button" ng-click="sendCommand()" aria-label="Send Commands" title="Send Commands">
         <md-icon>send</md-icon>
@@ -92,7 +100,7 @@
   <md-progress-linear md-mode="indeterminate" ng-if="toggle.commands"></md-progress-linear>
 
   <div flex layout="row">
-    <md-content flex style="background: #eee;height:100px;max-height:100px;">
+    <md-content flex style="background: #eee;height:150px;max-height:150px;">
       <md-card flex class="md-whiteframe-3dp" ng-repeat="message in messages">
         <md-card-content  layout="row" layout-padding>
           <div layout="column" layout-align="space-around start" flex>

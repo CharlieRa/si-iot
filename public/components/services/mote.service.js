@@ -52,9 +52,9 @@
           return $http.get(url+'/api/motes/'+moteIp+'/commands/'+command).then(handleSuccess, handleError('Error al obtener la respuesta del comando'));
         }
 
-        function sendCommand(moteIp, command) {
-          return $http.get(url+'/api/motes/'+moteIp+'/commands/'+command).then(handleSuccess, handleError('Error al obtener la respuesta del comando'));
-        }
+        // function sendCommand(moteIp, command) {
+        //   return $http.get(url+'/api/motes/'+moteIp+'/commands/'+command).then(handleSuccess, handleError('Error al obtener la respuesta del comando'));
+        // }
 
         function putCommand(moteIp, command) {
           return $http.put(url+'/api/motes/'+moteIp+'/commands/'+command).then(handleSuccess, handleError('Error al obtener la respuesta del comando'));

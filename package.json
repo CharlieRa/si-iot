@@ -4,6 +4,7 @@
   "description": "Sistema de gestion IoT a traves de CoAP",
   "main": "public/app.js",
   "dependencies": {
+    "angular-chart.js": "^1.0.3",
     "body-parser": "~1.15.2",
     "bower": "^1.6.3",
     "lodash": "^4.16.4"

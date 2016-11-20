@@ -98,7 +98,8 @@ angular
       }
     });
 
-    $state.transitionTo('main.motes');
+    // $state.transitionTo('main.motes');
+    $state.transitionTo('main.dashboard');
 
     /**/
     $scope.selectItem = function(item) {

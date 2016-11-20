@@ -8,6 +8,7 @@
     **/
     function moteCtrl($scope, $http, $timeout, $location, $mdDialog, $mdToast, $rootScope, $filter, MoteService, UserService)
     {
+      $scope.commandModel = [];
       $scope.motesSelected = [];
       $scope.motes = [];
       $scope.commandsButtons = [];
@@ -125,8 +126,37 @@
         return values;
       }
       $scope.sendCommand = function(){
+        console.log($scope.motesSelected);
         console.log($scope.metodo);
-        console.log($scope.commandsCheckbox);
+        console.log($scope.commandModel);
+        // console.log();
+        angular.forEach($scope.motesSelected, function(value, key){
+          MoteService.sendCommand(value.ipv6, $scope.commandModel).then(function(response){
+            if(response['success'] === false) {
+              $mdToast.show(
+                 $mdToast.simple()
+                   .content('Error al intentar comandos del mote IP: '+value.ipv6)
+                   .hideDelay(3000));
+            }else{
+              $mdToast.show($mdToast.simple()
+                .content('Nuevo mensaje de Mote: ')
+                .hideDelay(3000));
+                $scope.messages.push(response);
+                console.log(response);
+                // var moteReceived = $filter("filter")($scope.motes, {ipv6:response['mote']}, true)[0];
+                // var indice = $scope.motes.indexOf(moteReceived);
+                // angular.forEach(response['response'], function(value, key){
+                //   value = value.replace(/</g,"");
+                //   value = value.replace(/>/g,"");
+                //   value = value.replace(/\//g,"");
+                //   response['response'][key] = value;
+                // });
+                // $scope.motes[indice].commands = response['response'];
+
+            }
+          })
+        });
+        return;
       };
       $scope.getCommands = function() {
         $scope.toggle.general = true;
