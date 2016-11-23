@@ -57,8 +57,10 @@ angular
   })
   .controller('mainCtrl', function ($scope, $state, $mdSidenav ,$mdDialog, $mdToast, $rootScope, $location, UserService) {
     UserService.getApiMe().then(function(response, err){
+      console.log(response);
+      console.log(err);
       $scope.user = response;
-      // console.log($scope.user);
+      console.log($scope.user);
       if($scope.user.admin) {
         $scope.menuItems = [
           {
@@ -97,6 +99,7 @@ angular
         ];
       }
     });
+    console.log($scope.menuItems);
 
     // $state.transitionTo('main.motes');
     $state.transitionTo('main.dashboard');
