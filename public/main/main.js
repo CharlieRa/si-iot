@@ -57,10 +57,7 @@ angular
   })
   .controller('mainCtrl', function ($scope, $state, $mdSidenav ,$mdDialog, $mdToast, $rootScope, $location, UserService) {
     UserService.getApiMe().then(function(response, err){
-      console.log(response);
-      console.log(err);
       $scope.user = response;
-      console.log($scope.user);
       if($scope.user.admin) {
         $scope.menuItems = [
           {

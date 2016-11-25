@@ -2,11 +2,12 @@
     'use strict';
     angular
         .module('si')
-        .factory('PacketService', PacketService);
+        .factory('CoapService', CoapService);
 
-    PacketService.$inject = ['$http'];
-    function PacketService($http) {
+    CoapService.$inject = ['$http'];
+    function CoapService() {
         var service = {};
+        var coap_codes = [];
         var url = 'http://127.0.0.1:8888';
         service.getAll = GetAll;
         service.getById = GetById;

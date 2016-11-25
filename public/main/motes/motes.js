@@ -35,7 +35,6 @@
           }else{
             $scope.motes = response;
           }
-          console.log(response);
           $scope.toggle.motes = false;
         });
       };
